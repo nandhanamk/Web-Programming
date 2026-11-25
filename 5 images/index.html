@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Gallery</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(120deg, #fce4ec, #e1f5fe, #f3e5f5);
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #76527a;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 900px;
+            margin: 30px auto;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: 0.4s;
+            box-shadow: 0 4px 10px #aaa;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.08);
+            box-shadow: 0 8px 20px #888;
+        }
+
+        button {
+            background-color: #c5a3d6;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            margin: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #a77fbd;
+        }
+
+        #slideshow {
+            display: none;
+            margin: 20px auto;
+        }
+
+        #slideshow img {
+            width: 80%;
+            max-width: 600px;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px #999;
+        }
+
+        @media(max-width: 600px) {
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>My Image Gallery</h1>
+    <p>Click an image to start the slideshow</p>
+
+    <div class="gallery">
+        <img src="https://picsum.photos/id/1015/600/400" onclick="showSlide(0)">
+        <img src="https://picsum.photos/id/1018/600/400" onclick="showSlide(1)">
+        <img src="https://picsum.photos/id/1025/600/400" onclick="showSlide(2)">
+        <img src="https://picsum.photos/id/1035/600/400" onclick="showSlide(3)">
+        <img src="https://picsum.photos/id/1043/600/400" onclick="showSlide(4)">
+        <img src="https://picsum.photos/id/1050/600/400" onclick="showSlide(5)">
+    </div>
+
+    <div id="slideshow">
+        <h2>Slideshow</h2>
+
+        <img id="slideImage" src="">
+
+        <br>
+
+        <button onclick="previous()">Previous</button>
+        <button onclick="next()">Next</button>
+        <button onclick="autoPlay()">Auto Play</button>
+        <button onclick="stopPlay()">Stop</button>
+    </div>
+
+    <script>
+
+        let images = [
+            "https://picsum.photos/id/1015/600/400",
+            "https://picsum.photos/id/1018/600/400",
+            "https://picsum.photos/id/1025/600/400",
+            "https://picsum.photos/id/1035/600/400",
+            "https://picsum.photos/id/1043/600/400",
+            "https://picsum.photos/id/1050/600/400"
+        ];
+
+        let current = 0;
+        let timer;
+
+        function showSlide(index) {
+            current = index;
+            document.getElementById("slideshow").style.display = "block";
+            document.getElementById("slideImage").src = images[current];
+        }
+
+        function next() {
+            current = (current + 1) % images.length;
+            showSlide(current);
+        }
+
+        function previous() {
+            current = (current - 1 + images.length) % images.length;
+            showSlide(current);
+        }
+
+        function autoPlay() {
+            stopPlay();
+            timer = setInterval(next, 2000);
+        }
+
+        function stopPlay() {
+            clearInterval(timer);
+        }
+
+    </script>
+
+</body>
+</html>

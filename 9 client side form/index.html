@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Form Validation</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: #fff0f5;
+            padding: 30px;
+            width: 320px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px #999;
+        }
+
+        h2 {
+            text-align: center;
+            color: #9370db;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #d8bfd8;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #c8a2c8;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #9370db;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+
+        .success {
+            color: green;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Registration Form</h2>
+
+    <form id="myForm">
+
+        <input type="text" id="name" placeholder="Enter Name">
+        <div class="error" id="nameError"></div>
+
+        <input type="email" id="email" placeholder="Enter Email">
+        <div class="error" id="emailError"></div>
+
+        <input type="password" id="password" placeholder="Enter Password">
+        <div class="error" id="passwordError"></div>
+
+        <input type="password" id="confirm" placeholder="Confirm Password">
+        <div class="error" id="confirmError"></div>
+
+        <button type="submit">Register</button>
+
+        <p id="message" class="success"></p>
+
+    </form>
+</div>
+
+<script>
+
+document.getElementById("myForm").addEventListener("submit", function(e) {
+
+    e.preventDefault();
+
+    let name = document.getElementById("name").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let password = document.getElementById("password").value;
+    let confirm = document.getElementById("confirm").value;
+
+    let valid = true;
+
+    document.querySelectorAll(".error").forEach(function(error) {
+        error.innerHTML = "";
+    });
+
+    document.getElementById("message").innerHTML = "";
+
+    if (name === "") {
+        document.getElementById("nameError").innerHTML = "Name is required";
+        valid = false;
+    }
+
+    let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (email === "") {
+        document.getElementById("emailError").innerHTML = "Email is required";
+        valid = false;
+    }
+    else if (!emailPattern.test(email)) {
+        document.getElementById("emailError").innerHTML = "Enter valid email";
+        valid = false;
+    }
+
+    let passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+    if (password === "") {
+        document.getElementById("passwordError").innerHTML = "Password is required";
+        valid = false;
+    }
+    else if (!passwordPattern.test(password)) {
+        document.getElementById("passwordError").innerHTML =
+        "Minimum 8 characters, uppercase, lowercase and number required";
+        valid = false;
+    }
+
+    if (confirm === "") {
+        document.getElementById("confirmError").innerHTML = "Confirm password";
+        valid = false;
+    }
+    else if (password !== confirm) {
+        document.getElementById("confirmError").innerHTML = "Passwords do not match";
+        valid = false;
+    }
+
+    if (valid) {
+        document.getElementById("message").innerHTML =
+        "Registration Successful!";
+        document.getElementById("myForm").reset();
+    }
+
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Catalogue</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFF0F5;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #D8BFD8;
+            color: #4B304B;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        input, select {
+            padding: 10px;
+            margin: 15px 5px;
+            border: 1px solid #D8BFD8;
+            border-radius: 5px;
+            background-color: #FFFFFF;
+        }
+
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .card {
+            background-color: #E0F2F1;
+            padding: 20px;
+            width: 200px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px #D8C8D8;
+        }
+
+        .card h3 {
+            color: #5D476B;
+        }
+
+        .price {
+            color: #287D69;
+            font-weight: bold;
+        }
+
+        button {
+            background-color: #D8BFD8;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #C4A1C4;
+        }
+
+        #message {
+            color: #7B5265;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Product Catalogue</h1>
+        <p>Find your favourite products</p>
+    </header>
+
+    <input type="text" id="search"
+           placeholder="Search products...">
+
+    <select id="category">
+        <option value="All">All Categories</option>
+        <option value="Electronics">Electronics</option>
+        <option value="Clothing">Clothing</option>
+        <option value="Books">Books</option>
+    </select>
+
+    <div class="products" id="productList"></div>
+
+    <p id="message"></p>
+
+    <script>
+        const products = [
+            { name: "Laptop", price: 50000, category: "Electronics" },
+            { name: "Headphones", price: 1500, category: "Electronics" },
+            { name: "T-Shirt", price: 500, category: "Clothing" },
+            { name: "Jeans", price: 1200, category: "Clothing" },
+            { name: "JavaScript Book", price: 600, category: "Books" },
+            { name: "HTML Book", price: 400, category: "Books" }
+        ];
+
+        function displayProducts() {
+            let search = document.getElementById("search")
+                             .value.toLowerCase();
+
+            let category = document.getElementById("category")
+                               .value;
+
+            let list = document.getElementById("productList");
+            let message = document.getElementById("message");
+
+            list.innerHTML = "";
+
+            let filtered = products.filter(function(product) {
+                return product.name.toLowerCase().includes(search)
+                    && (category === "All"
+                    || product.category === category);
+            });
+
+            filtered.forEach(function(product) {
+                list.innerHTML += `
+                    <div class="card">
+                        <h3>${product.name}</h3>
+                        <p class="price">Price: ₹${product.price}</p>
+                        <p>Category: ${product.category}</p>
+                    </div>
+                `;
+            });
+
+            if (filtered.length === 0) {
+                message.textContent = "No products found!";
+            } else {
+                message.textContent =
+                    filtered.length + " product(s) found";
+            }
+        }
+
+        document.getElementById("search")
+            .addEventListener("input", displayProducts);
+
+        document.getElementById("category")
+            .addEventListener("change", displayProducts);
+
+        displayProducts();
+    </script>
+
+</body>
+</html>

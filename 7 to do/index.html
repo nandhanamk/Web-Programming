@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do List</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FCE4EC;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .container {
+            background-color: #FFFFFF;
+            width: 350px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px #D8BFD8;
+        }
+
+        h1 {
+            color: #9575CD;
+        }
+
+        input {
+            padding: 10px;
+            width: 60%;
+            border: 1px solid #D1C4E9;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #B39DDB;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        ul {
+            padding: 0;
+            list-style: none;
+        }
+
+        li {
+            background-color: #F3E5F5;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+
+        li span {
+            flex: 1;
+            overflow-wrap: anywhere;
+            cursor: pointer;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+
+        .delete {
+            background-color: #EF9A9A;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>My To-Do List</h1>
+
+        <input type="text" id="taskInput"
+               placeholder="Enter a task">
+
+        <button onclick="addTask()">Add</button>
+
+        <ul id="taskList"></ul>
+    </div>
+
+    <script>
+        let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+        function displayTasks() {
+            let list = document.getElementById("taskList");
+            list.innerHTML = "";
+
+            tasks.forEach(function(task, index) {
+                let li = document.createElement("li");
+
+                let span = document.createElement("span");
+                span.textContent = task.name;
+
+                if (task.completed) {
+                    span.classList.add("completed");
+                }
+
+                span.onclick = function() {
+                    tasks[index].completed = !tasks[index].completed;
+                    saveTasks();
+                };
+
+                let btn = document.createElement("button");
+                btn.textContent = "Delete";
+                btn.className = "delete";
+
+                btn.onclick = function() {
+                    tasks.splice(index, 1);
+                    saveTasks();
+                };
+
+                li.appendChild(span);
+                li.appendChild(btn);
+                list.appendChild(li);
+            });
+        }
+
+        function addTask() {
+            let input = document.getElementById("taskInput");
+            let name = input.value.trim();
+
+            if (name === "") {
+                alert("Please enter a task!");
+                return;
+            }
+
+            tasks.push({
+                name: name,
+                completed: false
+            });
+
+            input.value = "";
+            saveTasks();
+        }
+
+        function saveTasks() {
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+            displayTasks();
+        }
+
+        displayTasks();
+    </script>
+
+</body>
+</html>
+```
